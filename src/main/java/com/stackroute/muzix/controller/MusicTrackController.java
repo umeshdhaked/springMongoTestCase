@@ -21,10 +21,9 @@ import java.util.List;
 @RestController
 @RequestMapping("tracks")
 @Api("Track CRUD Operation API")
-@PropertySource("classpath:data.properties")
 public class MusicTrackController {
 
-    MusicTrackService musicTrackService;
+    private MusicTrackService musicTrackService;
     @Autowired
     public MusicTrackController(MusicTrackService musicTrackService)
     {
