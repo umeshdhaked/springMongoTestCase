@@ -9,8 +9,11 @@ import java.util.List;
 
 public interface TrackRepo extends MongoRepository<Track, Integer> {
 
-   // @Query(value = "SELECT * FROM track WHERE track_name=?1", nativeQuery = true)
-        //nativeQuery is for SQL only Query
- //  List<Track> getTrackByName(String string);
+//    @Query(value = "SELECT * FROM track WHERE track_name=?1", nativeQuery = true)
+//       // nativeQuery is for SQL only Query
+//   List<Track> getByTrackByName(String string);
+
+    List<Track> findTrackByTrackName(String string);
+
 
 }

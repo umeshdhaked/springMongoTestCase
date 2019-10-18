@@ -26,13 +26,13 @@ public class MusicTrackServiceImpl implements MusicTrackService {
 
     @Override
     public Track saveTrack(Track track) throws TrackAlreadyExistsException {
-           Track track1 = new Track();
-//        if (trackRepo.findById(track.getTrackId()).get()!=null){
-            track1 = trackRepo.save(track);
-//
-//        } else {
-//            throw new TrackAlreadyExistsException("Track Already Exist");
-//        }
+        Track track1 = new Track();
+        int trackId = track.getTrackId();
+        if (!trackRepo.existsById(trackId)) {
+            trackRepo.save(track);
+        } else {
+            throw new TrackAlreadyExistsException("Track Already Exist");
+        }
        return track1;
     }
 
@@ -49,12 +49,13 @@ public class MusicTrackServiceImpl implements MusicTrackService {
     @Override
     public Track removeTrack(int trackId) throws TrackNotFoundException {
         Track track = new Track();
-//        if (trackRepo.findById(track.getTrackId()).get()!=null) {
-//            track = trackRepo.findById(trackId).get();
-            trackRepo.deleteById(trackId);
-//        } else {
-//            throw new TrackNotFoundException("Track not found");
-//        }
+        if (trackRepo.existsById(trackId)) {
+           track = trackRepo.findById(trackId).get();
+        System.out.println(track);
+           trackRepo.deleteById(trackId);
+        } else {
+            throw new TrackNotFoundException("Track not found");
+        }
             return track;
     }
 
@@ -62,29 +63,26 @@ public class MusicTrackServiceImpl implements MusicTrackService {
     public void updateTrackComment(Track track) throws TrackNotFoundException {
         //    trackRepo.findAll();
         Track track1;
-        if (trackRepo.findById(track.getTrackId()).get()!=null) {
+
+        if (trackRepo.existsById(track.getTrackId())) {
             track1 = trackRepo.findById(track.getTrackId()).get();
             track1.setTrackComment(track.getTrackComment());
-
+            trackRepo.save(track1);
         } else {
             throw new TrackNotFoundException("Track not found");
         }
-
-
-        trackRepo.save(track1);
-
     }
 
     @Override
     public List<Track> trackByName(String name) throws TrackNotFoundException {
-        //trackRepo.findAll();
-//
-//        List<Track> tracks = trackRepo.getTrackByName(name);
-//        if (tracks.size() == 0) {
-//            throw new TrackNotFoundException("Track is No Track Named : " + name);
-//        }
 
-        return null;
+
+        List<Track> tracks = trackRepo.findTrackByTrackName(name);
+        if (tracks.size() == 0) {
+            throw new TrackNotFoundException("Track is No Track Named : " + name);
+        }
+
+        return tracks;
     }
 
 }
