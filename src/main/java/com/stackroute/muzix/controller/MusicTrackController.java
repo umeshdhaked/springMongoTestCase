@@ -33,11 +33,11 @@ public class MusicTrackController {
 
     @ApiOperation(value = "Saving Track Detail")
     @PostMapping("track")
-    public ResponseEntity<?> saveTrack(@RequestBody Track track) throws TrackAlreadyExistsException {
+    public ResponseEntity<?> saveHandler(@RequestBody Track track) throws TrackAlreadyExistsException {
 
         ResponseEntity responseEntity;
         musicTrackService.saveTrack(track);
-        responseEntity = new ResponseEntity<String>("Successful Created", HttpStatus.OK);
+        responseEntity = new ResponseEntity<String>("Successful Created", HttpStatus.CREATED);
         //response.sendRedirect("/index.html");
         return responseEntity;
     }
